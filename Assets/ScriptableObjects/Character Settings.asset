@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Character Settings
   m_EditorClassIdentifier: 
   forwardSpeed: 25
-  sideSpeed: 10
-  horizontalLimit: 2
-  smoothSpeed: 5
+  sideSpeed: 45
+  horizontalLimit: 4.5
+  smoothSpeed: 15

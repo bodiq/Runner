@@ -24,14 +24,18 @@ namespace Character
         private void Update()
         {
             var horizontal = Input.GetAxis("Horizontal");
-            _targetHorizontalPosition += horizontal * characterSettings.SideSpeed * Time.deltaTime;
-            _targetHorizontalPosition = Mathf.Clamp(_targetHorizontalPosition, -characterSettings.HorizontalLimit, characterSettings.HorizontalLimit);
+            
+            if (Mathf.Abs(horizontal) > 0.1f) 
+            {
+                _targetHorizontalPosition += horizontal * characterSettings.SideSpeed * Time.deltaTime;
+                _targetHorizontalPosition = Mathf.Clamp(_targetHorizontalPosition, -characterSettings.HorizontalLimit, characterSettings.HorizontalLimit);
+            }
         }
 
         private void FixedUpdate()
         {
             _targetPosition = new Vector3(_targetHorizontalPosition, transform.position.y, transform.position.z + characterSettings.ForwardSpeed * Time.fixedDeltaTime);
-            rigidbody.MovePosition(Vector3.MoveTowards(rigidbody.position, _targetPosition, characterSettings.SmoothSpeed * Time.fixedDeltaTime));
+            rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, _targetPosition, characterSettings.SmoothSpeed * Time.fixedDeltaTime));
         }
     }
 }
