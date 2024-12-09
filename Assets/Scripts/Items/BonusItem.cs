@@ -15,7 +15,7 @@ namespace Items
             _scoreToAdd = itemSettings.BonusItemData.FirstOrDefault(item => item.itemType == typeItem).score;
         }
 
-        public override void OnHit()
+        protected override void OnHit()
         {
             //Add _scoreToAdd to PlayerData + UI
         }

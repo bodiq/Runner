@@ -1,5 +1,6 @@
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -7,7 +8,7 @@ namespace Character
     {
         [SerializeField] private CharacterMain characterMain;
         [SerializeField] private CharacterSettings characterSettings;
-        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Rigidbody characterRigidbody;
 
         private float _targetHorizontalPosition;
         private bool _isRunning;
@@ -16,9 +17,9 @@ namespace Character
         
         private void Start()
         {
-            if (rigidbody == null)
+            if (characterRigidbody == null)
             {
-                rigidbody = GetComponent<Rigidbody>();
+                characterRigidbody = GetComponent<Rigidbody>();
             }
         }
 
@@ -38,7 +39,7 @@ namespace Character
         private void MoveCharacter()
         {
             _targetPosition = new Vector3(_targetHorizontalPosition, transform.position.y, transform.position.z + characterSettings.ForwardSpeed * Time.fixedDeltaTime);
-            rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, _targetPosition, characterSettings.SmoothSpeed * Time.fixedDeltaTime));
+            characterRigidbody.MovePosition(Vector3.Lerp(characterRigidbody.position, _targetPosition, characterSettings.SmoothSpeed * Time.fixedDeltaTime));
         }
 
         private void HandleInput()
@@ -58,6 +59,11 @@ namespace Character
                 _targetHorizontalPosition += horizontal * characterSettings.SideSpeed * Time.deltaTime;
                 _targetHorizontalPosition = Mathf.Clamp(_targetHorizontalPosition, -characterSettings.HorizontalLimit, characterSettings.HorizontalLimit);
             }
+        }
+
+        public void StopMoving()
+        {
+            _isRunning = false;
         }
     }
 }

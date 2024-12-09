@@ -1,4 +1,5 @@
-﻿using ScriptableObjects;
+﻿using System;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Items
@@ -6,6 +7,15 @@ namespace Items
     public abstract class Item : MonoBehaviour
     {
         [SerializeField] protected ItemSettings itemSettings;
-        public abstract void OnHit();
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                OnHit();
+            }
+        }
+
+        protected abstract void OnHit();
     }
 }
