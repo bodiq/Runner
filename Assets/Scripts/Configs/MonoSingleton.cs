@@ -37,10 +37,5 @@ namespace Configs
                 Destroy(gameObject);
             }
         }
-
-        private void OnApplicationQuit()
-        {
-            _instance = null;
-        }
     }
 }

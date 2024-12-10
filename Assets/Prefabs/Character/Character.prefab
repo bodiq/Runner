@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4179283265185350844}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMain: {fileID: 7518710230951520982}
   characterSettings: {fileID: 11400000, guid: e397bb392dd84324b8d7e6df8442a853, type: 2}
-  rigidbody: {fileID: 3608619675688773188}
+  characterRigidbody: {fileID: 0}
 --- !u!114 &6662058081959545838
 MonoBehaviour:
   m_ObjectHideFlags: 0
