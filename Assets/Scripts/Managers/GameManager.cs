@@ -1,7 +1,6 @@
 ﻿using System;
 using Character;
 using Configs;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -12,6 +11,7 @@ namespace Managers
         [SerializeField] private CharacterMain character;
 
         public Action OnCharacterDead;
+        public Action<int> OnGameScoreChange;
 
         public CharacterMain Character => character;
     }

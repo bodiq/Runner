@@ -12,15 +12,23 @@ namespace Character
         public CharacterMovement CharacterMovement => characterMovement;
         public CharacterAnimator CharacterAnimator => characterAnimator;
 
+        public int GameScore { get; set; }
+
         private void OnEnable()
         {
             GameManager.Instance.OnCharacterDead += CharacterDie;
+            GameManager.Instance.OnGameScoreChange += ChangeGameScore;
         }
 
         private void CharacterDie()
         {
             characterMovement.StopMoving();
             gameObject.SetActive(false);
+        }
+
+        private void ChangeGameScore(int addNum)
+        {
+            GameScore += addNum;
         }
 
         private void OnDisable()

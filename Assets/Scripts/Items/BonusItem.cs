@@ -1,5 +1,6 @@
 using System.Linq;
 using Enums;
+using Managers;
 using UnityEngine;
 
 namespace Items
@@ -17,7 +18,7 @@ namespace Items
 
         protected override void OnHit()
         {
-            //Add _scoreToAdd to PlayerData + UI
+            GameManager.Instance.OnGameScoreChange?.Invoke(_scoreToAdd);
         }
     }
 }
