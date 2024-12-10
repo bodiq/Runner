@@ -5,6 +5,8 @@ namespace Configs
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
+        [SerializeField] private bool isDestroyedOnLoad = false;
+        
         private static T _instance;
 
         public static T Instance
@@ -30,7 +32,10 @@ namespace Configs
             if (_instance == null)
             {
                 _instance = (T)this;
-                DontDestroyOnLoad(gameObject);
+                if (!isDestroyedOnLoad)
+                {
+                    DontDestroyOnLoad(gameObject);  
+                }
             }
             else if (_instance != this)
             {
