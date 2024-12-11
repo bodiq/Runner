@@ -1,3 +1,4 @@
+using Managers;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -49,6 +50,7 @@ namespace Character
 
             if (!_isRunning && Mathf.Abs(vertical) > 0)
             {
+                UIManager.Instance.HUDScreen.TurnTip(false);
                 _isRunning = true;
                 characterMain.CharacterAnimator.SetRunningState();
             }

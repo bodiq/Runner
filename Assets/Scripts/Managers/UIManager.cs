@@ -1,5 +1,6 @@
 using System;
 using Configs;
+using UI;
 using UnityEngine;
 
 namespace Managers
@@ -8,6 +9,9 @@ namespace Managers
     {
         [SerializeField] private GameObject gamePlayUIObjects;
         [SerializeField] private GameObject lobbyUIObjects;
+        [SerializeField] private HUDScreen hudScreen;
+
+        public HUDScreen HUDScreen => hudScreen;
 
         private void OnEnable()
         {
@@ -19,6 +23,7 @@ namespace Managers
         {
             gamePlayUIObjects.SetActive(true);
             lobbyUIObjects.SetActive(false);
+            HUDScreen.TurnTip(true);
         }
 
         public void TurnOnLobby()

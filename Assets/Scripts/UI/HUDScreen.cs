@@ -7,6 +7,7 @@ namespace UI
     public class HUDScreen : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI scoreCountText;
+        [SerializeField] private GameObject startGameTip;
 
         private int _score = 0;
     
@@ -14,6 +15,11 @@ namespace UI
         {
             GameManager.Instance.OnGameScoreChange += ChangeScoreText;
             GameManager.Instance.OnCharacterDead += ResetHUDData;
+        }
+
+        public void TurnTip(bool isActive)
+        {
+            startGameTip.gameObject.SetActive(isActive);
         }
 
         private void ChangeScoreText(int numToAdd)
