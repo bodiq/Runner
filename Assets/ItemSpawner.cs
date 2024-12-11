@@ -5,10 +5,12 @@ using Managers;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Transform[] roadSpawnPoints;
+    [SerializeField] private Transform[] environmentSpawnPoints;
     [SerializeField] private ItemSettings itemSettings;
     
     private readonly Dictionary<Item, bool> _spawnedItems = new();
@@ -18,8 +20,21 @@ public class ItemSpawner : MonoBehaviour
     public void SpawnItems()
     {
         ResetSpawner();
-        
-        foreach (var spawnPoint in spawnPoints)
+        SpawnRoadItems();
+        SpawnEnvironmentItems();
+    }
+
+    public void SpawnEnvironmentItems()
+    {
+        foreach (var spawnPoint in environmentSpawnPoints)
+        {
+            SpawnItem(spawnPoint.position, false);
+        }
+    }
+
+    private void SpawnRoadItems()
+    {
+        foreach (var spawnPoint in roadSpawnPoints)
         {
             var percent = Random.Range(1f, 100f);
 

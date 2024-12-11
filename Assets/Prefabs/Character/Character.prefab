@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMain: {fileID: 7518710230951520982}
   characterSettings: {fileID: 11400000, guid: e397bb392dd84324b8d7e6df8442a853, type: 2}
-  characterRigidbody: {fileID: 0}
+  characterRigidbody: {fileID: 3608619675688773188}
 --- !u!114 &6662058081959545838
 MonoBehaviour:
   m_ObjectHideFlags: 0
