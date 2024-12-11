@@ -58,3 +58,5 @@ MonoBehaviour:
   - {fileID: 6675694422621890479, guid: 1f8a5564a6ebef6489309d75615d1eb0, type: 3}
   - {fileID: 8323763537438790168, guid: 2169e458105732341a9ff919b5284248, type: 3}
   - {fileID: 1111486144570108886, guid: d2231ea3d3c067044ae37aba4957ae6d, type: 3}
+  bonusItemSpawnChance: 40
+  obstacleItemsSpawnChance: 25

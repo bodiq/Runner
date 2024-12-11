@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class TrackManager : MonoBehaviour
 {
-    [SerializeField] private GameObject trackPrefab;
+    [SerializeField] private Road trackPrefab;
     [SerializeField] private Transform parent;
     [SerializeField] private int trackPoolSize = 5; 
 
-    private Queue<GameObject> trackPool = new();
+    private Queue<Road> trackPool = new();
     private float trackLength; // Довжина одного сегмента
     private int plateIndex = 1;
-
-
+    
     private CharacterMain _player;
 
     private void Start()
     {
-        trackLength = trackPrefab.GetComponent<Renderer>().bounds.size.z; // Довжина сегмента
+        trackLength = trackPrefab.gameObject.GetComponent<Renderer>().bounds.size.z; // Довжина сегмента
         _player = GameManager.Instance.Character;
         PrewarmTracks();
     }
@@ -47,6 +46,8 @@ public class TrackManager : MonoBehaviour
         var track = trackPool.Dequeue();
 
         track.transform.position += new Vector3(0, 0, trackLength * trackPoolSize);
+        track.ItemSpawner.SpawnItems();
+        
         plateIndex++;
         trackPool.Enqueue(track);
     }

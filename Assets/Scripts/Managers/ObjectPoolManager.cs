@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Configs;
 using Items;
 using ScriptableObjects;
@@ -17,8 +18,8 @@ namespace Managers
         [SerializeField] private int countToPoolBonusItems;
         [SerializeField] private int countToPoolObstacleItems;
 
-        private readonly Queue<Item> _bonusItemsPool = new();
-        private readonly Queue<Item> _obstacleItemsPool = new();
+        private readonly List<Item> _bonusItemsPool = new();
+        private readonly List<Item> _obstacleItemsPool = new();
 
         protected override void Awake()
         {
@@ -34,8 +35,9 @@ namespace Managers
                 {
                     var item = Instantiate(bonusItem.itemPrefab, bonusItemsParent);
                     item.gameObject.SetActive(false);
-                    _bonusItemsPool.Enqueue(item);
+                    _bonusItemsPool.Add(item);
                 }
+                ShuffleList(_bonusItemsPool);
             }
 
             foreach (var obstacle in itemSettings.ObstacleItems)
@@ -44,8 +46,20 @@ namespace Managers
                 {
                     var item = Instantiate(obstacle, obstacleItemsParent);
                     item.gameObject.SetActive(false);
-                    _obstacleItemsPool.Enqueue(item);
+                    _obstacleItemsPool.Add(item);
                 }
+            }
+            ShuffleList(_obstacleItemsPool);
+        }
+
+        private void ShuffleList(List<Item> list)
+        {
+            for (var i = list.Count - 1; i > 0; i--)
+            {
+                int j = Random.Range(0, i + 1);
+                var temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
         }
         
@@ -53,22 +67,34 @@ namespace Managers
         {
             var targetPool = isBonus ? _bonusItemsPool : _obstacleItemsPool;
 
-            if (targetPool.Count > 0)
+            foreach (var item in targetPool)
             {
-                var item = targetPool.Dequeue();
-                item.gameObject.SetActive(true);
-                return item;
+                if (!item.gameObject.activeSelf)
+                {
+                    item.gameObject.SetActive(true);
+                    return item;
+                }
             }
-
+            
             Debug.LogWarning("Pool is empty! Consider increasing the initial size.");
             return null; 
         }
 
         public void ReturnItem(Item item, bool isBonus)
         {
+            if (item == null)
+            {
+                Debug.LogWarning("Attempted to return a null item.");
+                return;
+            }
+
             item.gameObject.SetActive(false);
+
             var targetPool = isBonus ? _bonusItemsPool : _obstacleItemsPool;
-            targetPool.Enqueue(item);
+            if (!targetPool.Contains(item))
+            {
+                targetPool.Add(item);
+            }
         }
     }
 }

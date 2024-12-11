@@ -1,18 +1,61 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Items;
+using Managers;
+using ScriptableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private ItemSettings itemSettings;
+    
+    private readonly Dictionary<Item, bool> _spawnedItems = new();
+
+    private int _obstacleSteak = 0;
+
+    public void SpawnItems()
     {
+        ResetSpawner();
         
+        foreach (var spawnPoint in spawnPoints)
+        {
+            var percent = Random.Range(1f, 100f);
+
+            if (percent <= itemSettings.BonusItemSpawnChance)
+            {
+                SpawnItem(spawnPoint.position, true);
+                _obstacleSteak = 0;
+            }
+            else if (percent <= itemSettings.BonusItemSpawnChance + itemSettings.ObstacleItemSpawnChance && _obstacleSteak < 2)
+            {
+                SpawnItem(spawnPoint.position, false);
+                _obstacleSteak++;
+            }
+            else
+            {
+                _obstacleSteak = 0;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnItem(Vector3 spawnPoint, bool isBonus)
     {
+        var item = ObjectPoolManager.Instance.GetItem(isBonus);
+        item.transform.position = spawnPoint;
+        item.gameObject.SetActive(true);
+        _spawnedItems.Add(item, isBonus);
+    }
+
+    private void ResetSpawner()
+    {
+        foreach (var (item, isBonus) in _spawnedItems)
+        {
+            ObjectPoolManager.Instance.ReturnItem(item, isBonus);
+        }
         
+        _obstacleSteak = 0;
+        _spawnedItems.Clear();
     }
 }

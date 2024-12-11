@@ -1532,10 +1532,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a83ba3eeb07b9cd4fbafc0b5e00dfd30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackPrefab: {fileID: 4748712805521045455, guid: 698a4a521f1e89542a0ee1bcc8074d46,
+  trackPrefab: {fileID: 826986908019185224, guid: 698a4a521f1e89542a0ee1bcc8074d46,
     type: 3}
   parent: {fileID: 1522696192}
-  trackPoolSize: 10
+  trackPoolSize: 6
 --- !u!1 &1578715683
 GameObject:
   m_ObjectHideFlags: 0

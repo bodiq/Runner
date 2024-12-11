@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardSpeed: 25
   sideSpeed: 45
-  horizontalLimit: 4.5
+  horizontalLimit: 5.5
   smoothSpeed: 15
