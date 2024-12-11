@@ -72,6 +72,7 @@ namespace Managers
                 if (!item.gameObject.activeSelf)
                 {
                     item.gameObject.SetActive(true);
+                    targetPool.Remove(item);
                     return item;
                 }
             }
