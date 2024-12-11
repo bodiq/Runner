@@ -1,7 +1,6 @@
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Character
 {

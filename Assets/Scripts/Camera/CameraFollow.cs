@@ -1,22 +1,24 @@
-using System;
 using Character;
 using Managers;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+namespace Camera
 {
-    private CharacterMain _player;
-
-    private float _startZOffset;
-
-    private void Start()
+    public class CameraFollow : MonoBehaviour
     {
-        _startZOffset = transform.position.z;
-        _player = GameManager.Instance.Character;
-    }
+        private CharacterMain _player;
 
-    private void LateUpdate()
-    {
-        transform.position = new Vector3(transform.position.x, transform.position.y,  _startZOffset + _player.transform.position.z);
+        private float _startZOffset;
+
+        private void Start()
+        {
+            _startZOffset = transform.position.z;
+            _player = GameManager.Instance.Character;
+        }
+
+        private void LateUpdate()
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y,  _startZOffset + _player.transform.position.z);
+        }
     }
 }

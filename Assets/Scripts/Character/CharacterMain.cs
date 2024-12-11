@@ -9,8 +9,7 @@ namespace Character
     {
         [SerializeField] private CharacterMovement characterMovement;
         [SerializeField] private CharacterAnimator characterAnimator;
-
-        public CharacterMovement CharacterMovement => characterMovement;
+        
         public CharacterAnimator CharacterAnimator => characterAnimator;
 
         public int GameScore { get; set; }
