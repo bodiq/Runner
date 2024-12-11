@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RankingRow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TextMeshProUGUI gamePlayedText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(int gamePlayed, int score)
     {
-        
+        gamePlayedText.text = gamePlayed.ToString();
+        scoreText.text = score.ToString();
     }
 }
