@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using UnityEngine;
 
@@ -18,12 +17,19 @@ namespace Character
         {
             GameManager.Instance.OnCharacterDead += CharacterDie;
             GameManager.Instance.OnGameScoreChange += ChangeGameScore;
+            GameManager.Instance.OnGameStart += SpawnCharacter;
+        }
+
+        private void SpawnCharacter()
+        {
+            transform.position = Vector3.zero;
+            GameScore = 0;
         }
 
         private void CharacterDie()
         {
             characterMovement.StopMoving();
-            gameObject.SetActive(false);
+            characterAnimator.SetIdleState();
         }
 
         private void ChangeGameScore(int addNum)
@@ -34,6 +40,8 @@ namespace Character
         private void OnDisable()
         {
             GameManager.Instance.OnCharacterDead -= CharacterDie;
+            GameManager.Instance.OnGameScoreChange -= ChangeGameScore;
+            GameManager.Instance.OnGameStart -= SpawnCharacter;
         }
     }
 }

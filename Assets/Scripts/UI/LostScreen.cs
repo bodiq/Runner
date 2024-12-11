@@ -17,7 +17,7 @@ public class LostScreen : MonoBehaviour
     private void OnButtonClick()
     {
         TurnOff();
-        UIManager.Instance.TurnOnLobby();
+        GameManager.Instance.OnGameEnd?.Invoke();
     }
 
     private void TurnOn()

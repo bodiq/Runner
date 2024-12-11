@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Character;
 using UnityEngine;
 
@@ -11,21 +13,43 @@ namespace Managers
         [SerializeField] private int trackPoolSize = 5; 
 
         private readonly Queue<Road> _trackPool = new();
-        private float _trackLength; // Довжина одного сегмента
+        private float _trackLength;
         private int _plateIndex = 1;
-    
+
+        private bool _isSpawned = false;
+
         private CharacterMain _player;
+
+        private void OnEnable()
+        {
+            GameManager.Instance.OnGameStart += PrewarmTracks;
+            GameManager.Instance.OnGameEnd +=  ResetTrack;
+        }
 
         private void Start()
         {
-            _trackLength = trackPrefab.gameObject.GetComponent<Renderer>().bounds.size.z; // Довжина сегмента
+            _trackLength = trackPrefab.gameObject.GetComponent<Renderer>().bounds.size.z;
             _player = GameManager.Instance.Character;
-            PrewarmTracks();
+        }
+        
+
+        private void ResetTrack()
+        {
+            _isSpawned = false;
+            foreach (var road in _trackPool)
+            {
+                road.ItemSpawner.ResetSpawner();
+                Destroy(road.gameObject);
+            }
+            
+            _trackPool.Clear();
+
+            _plateIndex = 1;
         }
 
         private void Update()
         {
-            if (_player.transform.position.z >= _trackLength * _plateIndex)
+            if (_player.transform.position.z >= _trackLength * _plateIndex && _isSpawned)
             {
                 SpawnTrack();
             }
@@ -41,6 +65,7 @@ namespace Managers
             }
         
             _plateIndex = 1;
+            _isSpawned = true;
         }
 
         private void SpawnTrack()
@@ -52,6 +77,12 @@ namespace Managers
         
             _plateIndex++;
             _trackPool.Enqueue(track);
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.OnGameStart -= PrewarmTracks;
+            GameManager.Instance.OnGameEnd -=  ResetTrack;
         }
     }
 }

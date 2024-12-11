@@ -13,6 +13,9 @@ namespace Managers
         public Action OnCharacterDead;
         public Action<int> OnGameScoreChange;
 
+        public Action OnGameStart;
+        public Action OnGameEnd;
+
         public CharacterMain Character => character;
     }
 }

@@ -64,6 +64,7 @@ namespace Character
         public void StopMoving()
         {
             _isRunning = false;
+            _targetHorizontalPosition = 0f;
         }
     }
 }

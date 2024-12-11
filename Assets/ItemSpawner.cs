@@ -63,7 +63,7 @@ public class ItemSpawner : MonoBehaviour
         _spawnedItems.Add(item, isBonus);
     }
 
-    private void ResetSpawner()
+    public void ResetSpawner()
     {
         foreach (var (item, isBonus) in _spawnedItems)
         {
