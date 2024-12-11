@@ -1,3 +1,5 @@
+using System.Linq;
+using Data;
 using Managers;
 using UnityEngine;
 
@@ -28,8 +30,24 @@ namespace Character
 
         private void CharacterDie()
         {
+            SetNewGameResult();
+            
             characterMovement.StopMoving();
             characterAnimator.SetIdleState();
+        }
+
+        private void SetNewGameResult()
+        {
+            var results = GameManager.Instance.gameResults.results;
+            var lastGameCount = results.Any() ? results.Last().gameCount : 0;
+
+            var newResult = new GameResult
+            {
+                gameCount = lastGameCount + 1,
+                gameScore = GameScore
+            };
+            
+            results.Add(newResult);
         }
 
         private void ChangeGameScore(int addNum)
