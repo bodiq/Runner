@@ -2,6 +2,7 @@ using System.Linq;
 using Enums;
 using Managers;
 using UnityEngine;
+using Zenject;
 
 namespace Items
 {
@@ -18,7 +19,7 @@ namespace Items
 
         protected override void OnHit()
         {
-            GameManager.Instance.OnGameScoreChange?.Invoke(_scoreToAdd);
+            _gameManager.OnGameScoreChange?.Invoke(_scoreToAdd);
             ObjectPoolManager.Instance.ReturnItem(this, true);
         }
     }

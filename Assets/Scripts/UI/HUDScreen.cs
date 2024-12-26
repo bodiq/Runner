@@ -1,6 +1,7 @@
 using Managers;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
@@ -10,11 +11,19 @@ namespace UI
         [SerializeField] private GameObject startGameTip;
 
         private int _score = 0;
+        
+        private GameManager _gameManager;
+
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
     
         private void OnEnable()
         {
-            GameManager.Instance.OnGameScoreChange += ChangeScoreText;
-            GameManager.Instance.OnCharacterDead += ResetHUDData;
+            _gameManager.OnGameScoreChange += ChangeScoreText;
+            _gameManager.OnCharacterDead += ResetHUDData;
         }
 
         public void TurnTip(bool isActive)
@@ -36,8 +45,8 @@ namespace UI
 
         private void OnDisable()
         {
-            GameManager.Instance.OnGameScoreChange -= ChangeScoreText;
-            GameManager.Instance.OnCharacterDead -= ResetHUDData;
+            _gameManager.OnGameScoreChange -= ChangeScoreText;
+            _gameManager.OnCharacterDead -= ResetHUDData;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Linq;
 using Data;
 using Managers;
 using UnityEngine;
+using Zenject;
 
 namespace Character
 {
@@ -13,12 +14,20 @@ namespace Character
         public CharacterAnimator CharacterAnimator => characterAnimator;
 
         public int GameScore { get; set; }
+        
+        private GameManager _gameManager;
+
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
 
         private void OnEnable()
         {
-            GameManager.Instance.OnCharacterDead += CharacterDie;
-            GameManager.Instance.OnGameScoreChange += ChangeGameScore;
-            GameManager.Instance.OnGameStart += SpawnCharacter;
+            _gameManager.OnCharacterDead += CharacterDie;
+            _gameManager.OnGameScoreChange += ChangeGameScore;
+            _gameManager.OnGameStart += SpawnCharacter;
         }
 
         private void SpawnCharacter()
@@ -37,7 +46,7 @@ namespace Character
 
         private void SetNewGameResult()
         {
-            var results = GameManager.Instance.gameResults.results;
+            var results = _gameManager.gameResults.results;
             var lastGameCount = results.Any() ? results.Last().gameCount : 0;
 
             var newResult = new GameResult
@@ -56,9 +65,9 @@ namespace Character
 
         private void OnDisable()
         {
-            GameManager.Instance.OnCharacterDead -= CharacterDie;
-            GameManager.Instance.OnGameScoreChange -= ChangeGameScore;
-            GameManager.Instance.OnGameStart -= SpawnCharacter;
+            _gameManager.OnCharacterDead -= CharacterDie;
+            _gameManager.OnGameScoreChange -= ChangeGameScore;
+            _gameManager.OnGameStart -= SpawnCharacter;
         }
     }
 }

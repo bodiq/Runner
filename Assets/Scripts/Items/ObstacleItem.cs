@@ -1,4 +1,6 @@
+
 using Managers;
+using Zenject;
 
 namespace Items
 {
@@ -6,7 +8,7 @@ namespace Items
     {
         protected override void OnHit()
         {
-            GameManager.Instance.OnCharacterDead?.Invoke();
+            _gameManager.OnCharacterDead?.Invoke();
         }
     }
 }

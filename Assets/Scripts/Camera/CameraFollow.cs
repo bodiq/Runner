@@ -1,6 +1,6 @@
 using Character;
-using Managers;
 using UnityEngine;
+using Zenject;
 
 namespace Camera
 {
@@ -9,11 +9,16 @@ namespace Camera
         private CharacterMain _player;
 
         private float _startZOffset;
+        
+        [Inject]
+        private void Construct(CharacterMain player)
+        {
+            _player = player;
+        }
 
         private void Start()
         {
             _startZOffset = transform.position.z;
-            _player = GameManager.Instance.Character;
         }
 
         private void LateUpdate()

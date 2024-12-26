@@ -5,6 +5,7 @@ using Configs;
 using Items;
 using ScriptableObjects;
 using UnityEngine;
+using Zenject;
 
 namespace Managers
 {
@@ -17,6 +18,8 @@ namespace Managers
 
         [SerializeField] private int countToPoolBonusItems;
         [SerializeField] private int countToPoolObstacleItems;
+        
+        [Inject] private DiContainer container;
 
         private readonly List<Item> _bonusItemsPool = new();
         private readonly List<Item> _obstacleItemsPool = new();
@@ -33,7 +36,7 @@ namespace Managers
             {
                 for (var i = 0; i < countToPoolBonusItems; i++)
                 {
-                    var item = Instantiate(bonusItem.itemPrefab, bonusItemsParent);
+                    var item = container.InstantiatePrefab(bonusItem.itemPrefab, bonusItemsParent).GetComponent<Item>();
                     item.gameObject.SetActive(false);
                     _bonusItemsPool.Add(item);
                 }
@@ -44,7 +47,7 @@ namespace Managers
             {
                 for (var i = 0; i < countToPoolObstacleItems; i++)
                 {
-                    var item = Instantiate(obstacle, obstacleItemsParent);
+                    var item = container.InstantiatePrefab(obstacle, obstacleItemsParent).GetComponent<Item>();
                     item.gameObject.SetActive(false);
                     _obstacleItemsPool.Add(item);
                 }

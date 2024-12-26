@@ -2,6 +2,7 @@ using DG.Tweening;
 using Managers;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
@@ -10,16 +11,24 @@ namespace UI
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Button returnToLobbyButton;
     
+        private GameManager _gameManager;
+
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+        
         private void OnEnable()
         {
-            GameManager.Instance.OnCharacterDead += TurnOn;
+            _gameManager.OnCharacterDead += TurnOn;
             returnToLobbyButton.onClick.AddListener(OnButtonClick);
         }
 
         private void OnButtonClick()
         {
             TurnOff();
-            GameManager.Instance.OnGameEnd?.Invoke();
+            _gameManager.OnGameEnd?.Invoke();
         }
 
         private void TurnOn()
@@ -38,7 +47,7 @@ namespace UI
 
         private void OnDisable()
         {
-            GameManager.Instance.OnCharacterDead -= TurnOn;
+            _gameManager.OnCharacterDead -= TurnOn;
             returnToLobbyButton.onClick.RemoveListener(OnButtonClick);
         }
     }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
@@ -11,7 +12,14 @@ namespace UI
         [SerializeField] private Transform rankingParent;
 
         private List<RankingRow> _allRanking = new();
+        private GameManager _gameManager;
 
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+        
         private void OnEnable()
         {
             RefreshLeaderboardData();
@@ -19,7 +27,7 @@ namespace UI
 
         private void RefreshLeaderboardData()
         {
-            var sortedResults = GameManager.Instance.gameResults.results
+            var sortedResults = _gameManager.gameResults.results
                 .OrderByDescending(res => res.gameScore)
                 .ToList();
         

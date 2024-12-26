@@ -2,6 +2,7 @@ using System;
 using Configs;
 using UI;
 using UnityEngine;
+using Zenject;
 
 namespace Managers
 {
@@ -10,13 +11,21 @@ namespace Managers
         [SerializeField] private GameObject gamePlayUIObjects;
         [SerializeField] private GameObject lobbyUIObjects;
         [SerializeField] private HUDScreen hudScreen;
+        
+        private GameManager _gameManager;
 
         public HUDScreen HUDScreen => hudScreen;
 
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+
         private void OnEnable()
         {
-            GameManager.Instance.OnGameEnd += TurnOnLobby;
-            GameManager.Instance.OnGameStart += TurnOnGamePlay;
+            _gameManager.OnGameEnd += TurnOnLobby;
+            _gameManager.OnGameStart += TurnOnGamePlay;
         }
 
         private void TurnOnGamePlay()
@@ -34,8 +43,8 @@ namespace Managers
 
         private void OnDisable()
         {
-            GameManager.Instance.OnGameEnd -= TurnOnLobby;
-            GameManager.Instance.OnGameStart -= TurnOnGamePlay;
+            _gameManager.OnGameEnd -= TurnOnLobby;
+            _gameManager.OnGameStart -= TurnOnGamePlay;
         }
     }
 }

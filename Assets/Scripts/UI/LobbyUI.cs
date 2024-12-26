@@ -1,6 +1,7 @@
 using Managers;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
@@ -12,6 +13,13 @@ namespace UI
 
         [SerializeField] private GameObject mainMenuBox;
         [SerializeField] private GameObject leaderboard;
+        private GameManager _gameManager;
+
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
 
         private void OnEnable()
         {
@@ -22,7 +30,7 @@ namespace UI
 
         private void OnPlayButtonClick()
         {
-            GameManager.Instance.OnGameStart?.Invoke();
+            _gameManager.OnGameStart?.Invoke();
         }
 
         private void OnLeaderboardButtonClick()
