@@ -1,5 +1,7 @@
-﻿using Character;
+﻿using Camera;
+using Character;
 using Managers;
+using SaveData;
 using UnityEngine;
 using Zenject;
 
@@ -14,11 +16,18 @@ namespace Installers
         {
             BindManager();
             BindCharacter();
+            BindCamera();
+        }
+
+        private void BindCamera()
+        {
+            Container.Bind<UnityEngine.Camera>().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<CameraFollow>().AsCached();
         }
 
         private void BindManager()
         {
-            Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameManager>().AsCached();
         }
 
         private void BindCharacter()

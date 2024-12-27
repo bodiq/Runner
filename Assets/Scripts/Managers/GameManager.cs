@@ -1,12 +1,12 @@
 ﻿using System;
-using Configs;
 using Data;
 using SaveData;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : IDisposable, Zenject.IInitializable
     {
         public Action OnCharacterDead;
         public Action<int> OnGameScoreChange;
@@ -15,18 +15,18 @@ namespace Managers
         public Action OnGameEnd;
 
         private GameDataHandler _gameDataHandler;
-
         public GameResults gameResults;
-
-        private void Awake()
-        {
-            _gameDataHandler = new GameDataHandler();
-            gameResults = _gameDataHandler.LoadResult();
-        }
-
-        private void OnApplicationQuit()
+        
+        public void Dispose()
         {
             _gameDataHandler.SaveResults(gameResults);
+        }
+
+        public void Initialize()
+        {
+            Debug.Log("GameManager Initialize called");
+            _gameDataHandler = new GameDataHandler();
+            gameResults = _gameDataHandler.LoadResult();
         }
     }
 }

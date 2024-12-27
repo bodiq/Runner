@@ -24,6 +24,13 @@ namespace SaveData
             if (File.Exists(_filePath))
             {
                 var json = File.ReadAllText(_filePath);
+
+                if (string.IsNullOrEmpty(json))
+                {
+                    Debug.LogWarning("GameResults.json is empty. Returning new GameResults.");
+                    return new GameResults();
+                }
+                
                 return JsonUtility.FromJson<GameResults>(json);
             }
 

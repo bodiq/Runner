@@ -4,26 +4,27 @@ using Zenject;
 
 namespace Camera
 {
-    public class CameraFollow : MonoBehaviour
+    public sealed class CameraFollow : ILateTickable, IInitializable
     {
         private CharacterMain _player;
+        private UnityEngine.Camera _camera;
 
         private float _startZOffset;
         
-        [Inject]
-        private void Construct(CharacterMain player)
+        private CameraFollow(CharacterMain player, UnityEngine.Camera camera)
         {
             _player = player;
+            _camera = camera;
         }
 
-        private void Start()
+        public void Initialize()
         {
-            _startZOffset = transform.position.z;
+            _startZOffset = _camera.transform.position.z;
         }
 
-        private void LateUpdate()
+        public void LateTick()
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y,  _startZOffset + _player.transform.position.z);
+            _camera.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y,  _startZOffset + _player.transform.position.z);
         }
     }
 }
