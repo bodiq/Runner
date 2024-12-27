@@ -1,53 +1,54 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Configs;
+using Data;
 using Items;
 using ScriptableObjects;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
-    public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
+    public class ObjectPoolManager : IInitializable, IDisposable
     {
-        [SerializeField] private ItemSettings itemSettings;
-
-        [SerializeField] private Transform bonusItemsParent;
-        [SerializeField] private Transform obstacleItemsParent;
-
-        [SerializeField] private int countToPoolBonusItems;
-        [SerializeField] private int countToPoolObstacleItems;
+        private PoolData _poolData;
         
         [Inject] private DiContainer container;
 
         private readonly List<Item> _bonusItemsPool = new();
         private readonly List<Item> _obstacleItemsPool = new();
 
-        protected override void Awake()
+        public ObjectPoolManager(PoolData poolData)
         {
-            base.Awake();
+            _poolData = poolData;
+        }
+        
+        public void Initialize()
+        {
             InitializePools();
         }
 
         private void InitializePools()
         {
-            foreach (var bonusItem in itemSettings.BonusItemData)
+            foreach (var bonusItem in _poolData.itemSettings.BonusItemData)
             {
-                for (var i = 0; i < countToPoolBonusItems; i++)
+                for (var i = 0; i < _poolData.countToPoolBonusItems; i++)
                 {
-                    var item = container.InstantiatePrefab(bonusItem.itemPrefab, bonusItemsParent).GetComponent<Item>();
+                    var item = container.InstantiatePrefab(bonusItem.itemPrefab, _poolData.bonusItemsParent).GetComponent<Item>();
                     item.gameObject.SetActive(false);
                     _bonusItemsPool.Add(item);
                 }
                 ShuffleList(_bonusItemsPool);
             }
 
-            foreach (var obstacle in itemSettings.ObstacleItems)
+            foreach (var obstacle in _poolData.itemSettings.ObstacleItems)
             {
-                for (var i = 0; i < countToPoolObstacleItems; i++)
+                for (var i = 0; i < _poolData.countToPoolObstacleItems; i++)
                 {
-                    var item = container.InstantiatePrefab(obstacle, obstacleItemsParent).GetComponent<Item>();
+                    var item = container.InstantiatePrefab(obstacle, _poolData.obstacleItemsParent).GetComponent<Item>();
                     item.gameObject.SetActive(false);
                     _obstacleItemsPool.Add(item);
                 }
@@ -99,6 +100,12 @@ namespace Managers
             {
                 targetPool.Add(item);
             }
+        }
+
+        public void Dispose()
+        {
+            _bonusItemsPool.Clear();
+            _obstacleItemsPool.Clear();
         }
     }
 }

@@ -3,6 +3,7 @@ using Items;
 using Managers;
 using ScriptableObjects;
 using UnityEngine;
+using Zenject;
 
 namespace Track
 {
@@ -15,6 +16,13 @@ namespace Track
         private readonly Dictionary<Item, bool> _spawnedItems = new();
 
         private int _obstacleSteak = 0;
+        private ObjectPoolManager _objectPoolManager;
+
+        [Inject]
+        private void Construct(ObjectPoolManager objectPoolManager)
+        {
+            _objectPoolManager = objectPoolManager;
+        }
 
         public void SpawnItems()
         {
@@ -56,7 +64,7 @@ namespace Track
 
         private void SpawnItem(Vector3 spawnPoint, bool isBonus)
         {
-            var item = ObjectPoolManager.Instance.GetItem(isBonus);
+            var item = _objectPoolManager.GetItem(isBonus);
             item.transform.position = spawnPoint;
             item.gameObject.SetActive(true);
             _spawnedItems.Add(item, isBonus);
@@ -66,7 +74,7 @@ namespace Track
         {
             foreach (var (item, isBonus) in _spawnedItems)
             {
-                ObjectPoolManager.Instance.ReturnItem(item, isBonus);
+                _objectPoolManager.ReturnItem(item, isBonus);
             }
         
             _obstacleSteak = 0;

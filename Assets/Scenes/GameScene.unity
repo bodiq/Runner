@@ -805,7 +805,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 296298750}
-  - component: {fileID: 296298751}
   m_Layer: 0
   m_Name: ObjectPoolManager
   m_TagString: Untagged
@@ -830,23 +829,6 @@ Transform:
   - {fileID: 66500555}
   m_Father: {fileID: 1963641267}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &296298751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296298749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2befd44bc9efc7c47a160ae3f0eb174f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemSettings: {fileID: 11400000, guid: bd38efdf01f3d9f409097093674d2062, type: 2}
-  bonusItemsParent: {fileID: 1491437645}
-  obstacleItemsParent: {fileID: 66500555}
-  countToPoolBonusItems: 7
-  countToPoolObstacleItems: 4
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3484,6 +3466,7 @@ GameObject:
   - component: {fileID: 1926306364}
   - component: {fileID: 1926306363}
   - component: {fileID: 1926306365}
+  - component: {fileID: 1926306366}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -3505,6 +3488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 1926306366}
   - {fileID: 1926306365}
   _installerPrefabs: []
   _autoRun: 1
@@ -3552,6 +3536,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 2084426776}
   playerPrefab: {fileID: 100000, guid: 657efc207b24f9a44aaafc6eed64fb20, type: 3}
+--- !u!114 &1926306366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926306362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66087015b794b498ae1bcb83f839492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolData:
+    itemSettings: {fileID: 11400000, guid: bd38efdf01f3d9f409097093674d2062, type: 2}
+    bonusItemsParent: {fileID: 1491437645}
+    obstacleItemsParent: {fileID: 66500555}
+    countToPoolBonusItems: 10
+    countToPoolObstacleItems: 10
 --- !u!1 &1940189415
 GameObject:
   m_ObjectHideFlags: 0

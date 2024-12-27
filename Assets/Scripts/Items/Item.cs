@@ -12,6 +12,9 @@ namespace Items
         [Inject]
         protected GameManager _gameManager;
         
+        [Inject]
+        protected ObjectPoolManager _objectPoolManager;
+        
         protected void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))

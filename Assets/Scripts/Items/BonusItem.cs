@@ -20,7 +20,7 @@ namespace Items
         protected override void OnHit()
         {
             _gameManager.OnGameScoreChange?.Invoke(_scoreToAdd);
-            ObjectPoolManager.Instance.ReturnItem(this, true);
+            _objectPoolManager.ReturnItem(this, true);
         }
     }
 }

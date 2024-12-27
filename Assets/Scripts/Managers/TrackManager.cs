@@ -20,12 +20,14 @@ namespace Managers
 
         private CharacterMain _player;
         private GameManager _gameManager;
+        private DiContainer _container;
 
         [Inject]
-        private void Construct(CharacterMain player, GameManager gameManager)
+        private void Construct(CharacterMain player, GameManager gameManager, DiContainer container)
         {
             _player = player;
             _gameManager = gameManager;
+            _container = container;
         }
 
         private void OnEnable()
@@ -63,7 +65,7 @@ namespace Managers
         {
             for (var i = 0; i < trackPoolSize; i++)
             {
-                var track = Instantiate(trackPrefab, new Vector3(0, 0, i * _trackLength), Quaternion.identity, parent);
+                var track =  _container.InstantiatePrefab(trackPrefab, new Vector3(0, 0, i * _trackLength), Quaternion.identity, parent).GetComponent<Road>();
                 track.ItemSpawner.SpawnEnvironmentItems();
                 _trackPool.Enqueue(track);
             }
