@@ -41,7 +41,6 @@ namespace Character
             SetNewGameResult();
             
             characterMovement.StopMoving();
-            characterAnimator.SetIdleState();
         }
 
         private void SetNewGameResult()
